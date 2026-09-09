@@ -1,0 +1,11 @@
+{
+  "best_model": "logistic_regression",
+  "customer_count": 50000,
+  "revenue_at_risk": 21613732.007907413,
+  "segment_counts": {
+    "Budget Customers": 16808,
+    "High-Value At Risk": 14709,
+    "Growth Customers": 10183,
+    "Premium Loyalists": 8300
+  }
+}

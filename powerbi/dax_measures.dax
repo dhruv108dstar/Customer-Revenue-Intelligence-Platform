@@ -1,0 +1,50 @@
+Customers = DISTINCTCOUNT(dim_customer[customer_id])
+
+Churned Customers = CALCULATE([Customers], dim_customer[churn] = 1)
+
+Churn Rate = DIVIDE([Churned Customers], [Customers])
+
+Total Revenue = SUM(fact_transactions[amount])
+
+Average Revenue Per Customer = DIVIDE([Total Revenue], [Customers])
+
+Transaction Count = COUNTROWS(fact_transactions)
+
+Average Transaction Value = DIVIDE([Total Revenue], [Transaction Count])
+
+Late Payment Value =
+CALCULATE(
+    SUM(fact_payments[amount]),
+    fact_payments[payment_status] = "Late"
+)
+
+Complaint Count = COUNTROWS(fact_complaints)
+
+Average Resolution Hours = AVERAGE(fact_complaints[resolution_time_hours])
+
+Revenue At Risk = SUM(customer_scores[revenue_at_risk])
+
+Average CLV = AVERAGE(customer_scores[clv])
+
+High Risk Customers =
+CALCULATE(
+    DISTINCTCOUNT(customer_scores[customer_id]),
+    customer_scores[churn_probability] >= 0.50
+)
+
+Retention Priority Customers =
+CALCULATE(
+    DISTINCTCOUNT(customer_scores[customer_id]),
+    customer_scores[churn_probability] >= 0.50,
+    customer_scores[clv] >= [Average CLV]
+)
+
+Revenue Growth MoM % =
+VAR CurrentRevenue = [Total Revenue]
+VAR PriorRevenue =
+    CALCULATE(
+        [Total Revenue],
+        DATEADD(dim_date[date_id], -1, MONTH)
+    )
+RETURN
+    DIVIDE(CurrentRevenue - PriorRevenue, PriorRevenue)
