@@ -92,6 +92,4 @@ customer-revenue-intelligence/
 - Extend ML with uplift modeling
 - Connect to real telecom datasets
 
-## Screenshots
 
-Placeholders to be added after dashboard development.
